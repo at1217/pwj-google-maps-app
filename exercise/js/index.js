@@ -35,10 +35,12 @@ const noStoresFound = () => {
 
 const getStores = () => {
     const zipCode = document.getElementById('zip-code').value;
+    //console.log(zipCode);
     if (!zipCode) {
         return;
     }
     const fullUrl = `${API_URL}?zip_code=${zipCode}`;
+    //console.log(fullUrl);
     fetch(fullUrl)
     .then ((response) => {
         if(response.status == 200) {
@@ -106,10 +108,11 @@ const setStoreList = (store) => {
 
 const searchLocationNear = (stores) => {
     var bounds = new google.maps.LatLngBounds();
+    console.log(stores[0]);
     stores.forEach((store, index)=> {
         var latlng = new google.maps.LatLng(
-            store.location.coordinates[0],
-            store.location.coordinates[1]);
+            store.location.coordinates[1],
+            store.location.coordinates[0]);
         let name = store.storeName;
         let address = store.addressLines[0];
         let openStatusText = store.openStatusText;
@@ -164,6 +167,7 @@ const createMarker = (latlng, name, address, openStatus, phone, storeNumber) => 
         map: map,
         label: `${storeNumber}`
     });
+    console.log(marker);
     google.maps.event.addListener(marker, 'click', function() {
         infoWindow.setContent(html);
         infoWindow.open(map, marker);
